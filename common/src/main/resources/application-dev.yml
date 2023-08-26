@@ -10,3 +10,8 @@ spring:
       hibernate.ddl-auto: validate
 
 
+jwt:
+  tokenPrefix: Bearer
+  header: Authorization
+  key: q3t6w9z$C&F)J@NcQfTjWnZr4u7x!A%D*G-KaPdSgUkXp2s5v8y/B?E(H+MbQeTh
+  expiresAfter: 1800
