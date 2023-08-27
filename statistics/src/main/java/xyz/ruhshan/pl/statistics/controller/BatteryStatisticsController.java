@@ -14,7 +14,7 @@ public class BatteryStatisticsController {
         this.batteryStatisticsService = batteryStatisticsService;
     }
 
-    @GetMapping("/by-postcode-range/{start}/{end}")
+    @GetMapping("/api/by-postcode-range/{start}/{end}")
     public StatisticsResponseDto getStatisticsByPostCodeRange(@PathVariable Integer start, @PathVariable Integer end){
         return batteryStatisticsService.getStatisticsByPostCodeRange(start, end);
     }
