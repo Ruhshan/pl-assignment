@@ -20,3 +20,6 @@ jwt:
   header: Authorization
   key: q3t6w9z$C&F)J@NcQfTjWnZr4u7x!A%D*G-KaPdSgUkXp2s5v8y/B?E(H+MbQeTh
   expiresAfter: 180000000
+
+queue:
+  battery-registration: q.battery-registration
