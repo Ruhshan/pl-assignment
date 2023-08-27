@@ -23,3 +23,6 @@ jwt:
 
 queue:
   battery-registration: q.battery-registration
+
+statistics:
+  url: http://localhost:8082/statistics/api
