@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=pl-db
+    ports:
+      - '5432:5432'
+    volumes:
+      - my-datavolume:/var/lib/postgres/data
+volumes:
+  my-datavolume:
+
