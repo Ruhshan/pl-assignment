@@ -1,4 +1,4 @@
-package xyz.ruhshan.pl.gateway.request;
+package xyz.ruhshan.pl.common.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
