@@ -14,5 +14,5 @@ import lombok.NoArgsConstructor;
 public class Battery extends BaseEntity{
     private String name;
     private Integer postCode;
-    private Integer capacity;
+    private Double capacity;
 }
