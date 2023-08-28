@@ -1,6 +1,7 @@
 package xyz.ruhshan.pl.gateway.service;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +17,7 @@ import xyz.ruhshan.pl.gateway.response.SignInResponse;
 import xyz.ruhshan.pl.gateway.response.SignUpResponse;
 
 @Service
+@Slf4j
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -31,6 +33,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public SignUpResponse signUp(SignUpRequest request) {
+
+        log.info("Signing up new user with email {}", request.getEmail());
+
         var user = User.builder().firstName(request.getFirstName()).lastName(request.getLastName())
                 .email(request.getEmail()).password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER).build();
@@ -41,6 +46,8 @@ public class AuthServiceImpl implements AuthService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to create user");
         }
 
+        log.info("Signing up of user {} is successful", request.getEmail());
+
         return new SignUpResponse("User created successfully");
 
 
@@ -49,11 +56,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public SignInResponse signIn(SignInRequest request) {
+        log.info("User {} is signing in", request.getEmail());
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
 
+        log.info("User {} signed in successfully", request.getEmail());
         String token = jwtService.generateToken(user.getEmail());
         return new SignInResponse(token);
     }
