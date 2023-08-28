@@ -26,6 +26,16 @@ services:
       - '8083:8080'
     env_file:
       - docker-variable.env
+  registration:
+    container_name: pl-registration-container
+    build:
+      context: .
+      dockerfile: Dockerfile-statistics
+    ports:
+      - '8082:8080'
+    env_file:
+      - docker-variable.env
+
 
 
 
