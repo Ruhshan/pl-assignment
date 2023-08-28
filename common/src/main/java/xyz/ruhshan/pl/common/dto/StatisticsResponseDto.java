@@ -9,8 +9,5 @@ import lombok.Data;
 public class StatisticsResponseDto {
     private List<String> names;
     private Double totalWattCapacity;
-    @JsonProperty("averageWattCapacity")
-    public Double getAverageWattCapacity() {
-        return totalWattCapacity/names.size();
-    }
+    private Double averageWattCapacity;
 }

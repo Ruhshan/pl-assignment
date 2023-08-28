@@ -1,4 +1,4 @@
-package xyz.ruhshan.pl.registration;
+package xyz.ruhshan.pl.registration.service;
 
 import xyz.ruhshan.pl.common.dto.BatteryRegistrationRequest;
 
