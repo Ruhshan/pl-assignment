@@ -17,6 +17,18 @@ services:
       - '5432:5432'
     volumes:
       - my-datavolume:/var/lib/postgres/data
+  statistics:
+    container_name: pl-statistics-container
+    build:
+      context: .
+      dockerfile: Dockerfile-statistics
+    ports:
+      - '8083:8080'
+    env_file:
+      - docker-variable.env
+
+
+
 volumes:
   my-datavolume:
 

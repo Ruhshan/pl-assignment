@@ -1,0 +1,28 @@
+spring:
+  rabbitmq:
+    host: ${RABBIT_HOST}
+    port: ${RABBIT_PORT}
+    username: ${RABBIT_USER}
+    password: ${RABBIT_PASSWORD}
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate.ddl-auto: validate
+
+
+jwt:
+  tokenPrefix: Bearer
+  header: Authorization
+  key: ${JWT_KEY}
+  expiresAfter: 180000000
+
+queue:
+  battery-registration: q.battery-registration
+
+statistics:
+  url: ${STATISTICS_URL}/statistics/api
