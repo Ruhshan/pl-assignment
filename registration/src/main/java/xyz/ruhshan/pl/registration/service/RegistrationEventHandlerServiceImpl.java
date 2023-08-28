@@ -1,4 +1,4 @@
-package xyz.ruhshan.pl.registration;
+package xyz.ruhshan.pl.registration.service;
 
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;

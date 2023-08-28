@@ -33,6 +33,6 @@ public class BatteryStatisticsServiceImpl implements BatteryStatisticsService {
 
         Collections.sort(names);
 
-        return new StatisticsResponseDto(names, totalWatts);
+        return new StatisticsResponseDto(names, totalWatts, totalWatts/names.size());
     }
 }
