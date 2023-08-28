@@ -10,6 +10,6 @@ FROM openjdk:21-ea-17-slim-buster
 RUN mkdir /libs
 WORKDIR /libs
 
-COPY --from=build-stage /src/registration/target/registration.jar /libs/
+COPY --from=build-stage /src/gateway/target/gateway.jar /libs/
 
-ENTRYPOINT ["java","-jar","-Dspring.profiles.active=prod","registration.jar"]
+ENTRYPOINT ["java","-jar","-Dspring.profiles.active=prod","gateway.jar"]
