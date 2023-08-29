@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import xyz.ruhshan.pl.common.dto.RealtimeAggregatedStatDto;
 import xyz.ruhshan.pl.common.dto.StatisticsResponseDto;
 import xyz.ruhshan.pl.common.entity.Battery;
 import xyz.ruhshan.pl.common.repository.BatteryRepository;
@@ -55,5 +56,48 @@ public class BatteryStatisticsServiceImpl implements BatteryStatisticsService {
         Collections.sort(names);
 
         return new StatisticsResponseDto(names, totalWatts, totalWatts/names.size());
+    }
+
+    @Override
+    public RealtimeAggregatedStatDto getAggregatedStats() {
+        List<Battery> batteryList = batteryRepository.findAll();
+
+        var totalCapacity = batteryList.stream().mapToDouble(Battery::getCapacity).sum();
+        var minCapacity = batteryList.stream().mapToDouble(Battery::getCapacity).min();
+        var maxCapacity = batteryList.stream().mapToDouble(Battery::getCapacity).max();
+
+        RealtimeAggregatedStatDto realtimeAggregatedStatDto = RealtimeAggregatedStatDto.builder()
+            .totalNumberOfBatteries(batteryList.size())
+            .totalCapacity(totalCapacity)
+            .averageCapacity(totalCapacity/batteryList.size())
+            .minimumCapacity(minCapacity.isPresent() ? minCapacity.getAsDouble() : null)
+            .maximumCapacity(maxCapacity.isPresent() ? maxCapacity.getAsDouble(): null)
+            .quartiles(calculateQuartiles(batteryList))
+            .build();
+
+        return realtimeAggregatedStatDto;
+    }
+
+    private List<Double> calculateQuartiles(List<Battery> batteryList) {
+        double[] sortedCapacity = batteryList.stream().mapToDouble(Battery::getCapacity).sorted().toArray();
+
+        int n = sortedCapacity.length;
+        int q1Index = n / 4;
+        int q2Index = n / 2;
+        int q3Index = 3 * n / 4;
+
+        return List.of(calculateMedian(sortedCapacity, 0, q1Index),
+            calculateMedian(sortedCapacity, 0, q2Index),
+            calculateMedian(sortedCapacity, 0, q3Index));
+    }
+
+    private  double calculateMedian(double[] data, int startIndex, int endIndex) {
+        int length = endIndex - startIndex + 1;
+        int middleIndex = startIndex + length / 2;
+        if (length % 2 == 0) {
+            return (data[middleIndex - 1] + data[middleIndex]) / 2.0;
+        } else {
+            return data[middleIndex];
+        }
     }
 }
