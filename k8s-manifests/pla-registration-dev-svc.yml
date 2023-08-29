@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pl-registration-dep  # Sets Deployment name
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pla
+      module: registration
+  template:
+    metadata:
+      labels:
+        app: pla
+        module: registration
+    spec:
+      containers:
+        - name: pla-registration
+          image: ruhshan/pla-registration
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: application-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pl-registration-svc # Sets service name
+  labels:
+    app: pla # Labels and Selectors
+    module: registration
+spec:
+  type: NodePort # Sets service type
+  ports:
+    - port: 8080 # Sets port to run the postgres application
+  selector:
+    app: pla
+    module: registration
