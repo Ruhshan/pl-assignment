@@ -26,3 +26,13 @@ queue:
 
 statistics:
   url: ${STATISTICS_URL}/statistics/api
+
+springdoc:
+  swagger-ui:
+    path: /v3/swagger-ui
+    urls-primary-name: one
+    enabled: true
+
+  api-docs:
+    path: /v3/api-docs
+    enabled: true

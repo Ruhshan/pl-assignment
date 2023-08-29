@@ -1,6 +1,8 @@
 package xyz.ruhshan.pl.gateway.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,7 @@ import xyz.ruhshan.pl.gateway.service.BatteryRegistrationService;
 @RestController
 @Validated
 @Slf4j
+@SecurityRequirement(name = "Bearer Authentication")
 public class RegistrationController extends ApiV1Controller{
     private final BatteryRegistrationService batteryRegistrationService;
 
