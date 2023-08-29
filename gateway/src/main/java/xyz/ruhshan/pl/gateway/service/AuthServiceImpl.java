@@ -36,9 +36,13 @@ public class AuthServiceImpl implements AuthService {
 
         log.info("Signing up new user with email {}", request.getEmail());
 
+        userRepository.findByEmail(request.getEmail()).ifPresent(user -> {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"User with the given email exists");
+        });
+
         var user = User.builder().firstName(request.getFirstName()).lastName(request.getLastName())
                 .email(request.getEmail()).password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER).build();
+                .role(request.getRole()==null ? Role.USER: request.getRole()).build();
 
         try{
             userRepository.save(user);
