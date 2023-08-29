@@ -18,10 +18,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 import xyz.ruhshan.pl.common.dto.StatisticsResponseDto;
 import xyz.ruhshan.pl.common.entity.Battery;
 import xyz.ruhshan.pl.common.repository.BatteryRepository;
@@ -43,6 +45,12 @@ public class BatteryStatisticsControllerTest {
     @ServiceConnection
     static RabbitMQContainer rabbitMQContainer = new RabbitMQContainer(
         "rabbitmq:management");
+
+    @Container
+    @ServiceConnection
+    static GenericContainer<?> redisContainer = new GenericContainer<>(DockerImageName.parse("redis"))
+        .withExposedPorts(6379);
+
 
 
     @Autowired
