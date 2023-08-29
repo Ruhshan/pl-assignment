@@ -22,7 +22,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-statistics
-    ports:
+    ports:                                                                                                                                    
       - '8083:8080'
     env_file:
       - docker-variable.env
