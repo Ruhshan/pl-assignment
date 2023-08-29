@@ -10,7 +10,8 @@ Sole purpose of this service is to receive registration requests from queue and 
 successful registration events to queue that later picked up by statistics module to update the cache.
 
 ### Statistics
-This is not directly accessible to user. It produces battery statistics throw rest apis.
+This is not directly accessible to user. It exposes battery statistics by postcode range and aggregated staistics through
+REST endpoints.
 
 # Running The Project
 
