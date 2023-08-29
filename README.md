@@ -1,5 +1,12 @@
 # Running The Project
 
+## Running test
+
+To run all the unit tests and integration tests issue the following command in terminal:
+```shell
+mvn test
+```
+
 ## Running with docker compose
 
 To run the project with docker compose issue the following command in terminal
