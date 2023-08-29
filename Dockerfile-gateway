@@ -1,0 +1,15 @@
+FROM maven:3.6.3-openjdk-17-slim AS build-stage
+RUN mkdir /src
+WORKDIR /src
+COPY . .
+RUN --mount=type=cache,target=/root/.m2 mvn clean package -DskipTests
+
+
+FROM openjdk:21-ea-17-slim-buster
+
+RUN mkdir /libs
+WORKDIR /libs
+
+COPY --from=build-stage /src/gateway/target/gateway.jar /libs/
+
+ENTRYPOINT ["java","-jar","-Dspring.profiles.active=prod","gateway.jar"]
