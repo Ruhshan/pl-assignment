@@ -15,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
+import xyz.ruhshan.pl.common.dto.RealtimeAggregatedStatDto;
 import xyz.ruhshan.pl.common.dto.StatisticsResponseDto;
 import xyz.ruhshan.pl.gateway.apiClient.StatisticsClient;
 import xyz.ruhshan.pl.gateway.service.StatisticsServiceImpl;
@@ -53,6 +54,17 @@ public class StatisticsServiceTest {
 
         Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseStatusException.getStatusCode());
         Assertions.assertEquals("Something went wrong during fetching statistics", responseStatusException.getReason());
+    }
+
+    @Test
+    public void shouldReturnAggregatedStatisticsReturnedFromClient() {
+        RealtimeAggregatedStatDto aggregatedStatDto = Instancio.create(RealtimeAggregatedStatDto.class);
+
+        when(statisticsClient.getAggregatedStat()).thenReturn(aggregatedStatDto);
+
+        RealtimeAggregatedStatDto responseFromService = statisticsService.getAggregatedStatistics();
+
+        Assertions.assertEquals(aggregatedStatDto, responseFromService);
     }
 
 
