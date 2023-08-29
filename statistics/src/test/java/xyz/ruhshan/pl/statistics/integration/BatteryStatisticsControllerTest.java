@@ -58,7 +58,9 @@ public class BatteryStatisticsControllerTest {
 
     @Autowired
     private BatteryRepository batteryRepository;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
 
     private List<Battery> BATTERY_DATA = List.of(

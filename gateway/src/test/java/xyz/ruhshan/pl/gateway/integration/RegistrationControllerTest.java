@@ -1,5 +1,6 @@
 package xyz.ruhshan.pl.gateway.integration;
 
+import static org.instancio.Select.field;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 import org.instancio.Instancio;
+import org.instancio.Model;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -57,7 +59,8 @@ public class RegistrationControllerTest {
         .withExposedPorts(6379);
 
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Autowired
     private MockMvc mockMvc;
@@ -72,6 +75,11 @@ public class RegistrationControllerTest {
     RabbitTemplate rabbitTemplate;
 
     private String jwtToken = "";
+    private Model<BatteryRegistrationRequest> batteryRegistrationRequestModel = Instancio.of(BatteryRegistrationRequest.class)
+        .generate(field(BatteryRegistrationRequest::getName), gen -> gen.text().pattern("#a#a#a#a#a#a"))
+        .generate(field(BatteryRegistrationRequest::getPostcode), gen -> gen.ints().min(10).max(1000))
+        .generate(field(BatteryRegistrationRequest::getCapacity), gen -> gen.doubles().min(0.0).max(10000.0))
+        .toModel();
 
     @BeforeEach
     public void acquireAuthToken() {
@@ -96,7 +104,7 @@ public class RegistrationControllerTest {
     @Test
     public void shouldReturn403IfAuthTokenNotProvided() throws Exception {
         List<BatteryRegistrationRequest> batteryRegistrationRequestList = Instancio
-            .ofList(BatteryRegistrationRequest.class).size(10).create();
+            .ofList(batteryRegistrationRequestModel).size(10).create();
 
         this.mockMvc.perform(
             MockMvcRequestBuilders.post("/api/v1/battery-registration")
@@ -108,8 +116,10 @@ public class RegistrationControllerTest {
     @Test
     public void shouldReturn200IfValidAuthTokenProvided() throws Exception{
 
+
+
         List<BatteryRegistrationRequest> batteryRegistrationRequestList = Instancio
-            .ofList(BatteryRegistrationRequest.class).size(10).create();
+            .ofList(batteryRegistrationRequestModel).size(10).create();
 
         this.mockMvc.perform(
             MockMvcRequestBuilders.post("/api/v1/battery-registration")
@@ -123,7 +133,7 @@ public class RegistrationControllerTest {
     @Test
     public void shouldPublishRegistrationRequestsToQueue() throws Exception {
         List<BatteryRegistrationRequest> batteryRegistrationRequestList = Instancio
-            .ofList(BatteryRegistrationRequest.class).size(10).create();
+            .ofList(batteryRegistrationRequestModel).size(10).create();
 
         this.mockMvc.perform(
             MockMvcRequestBuilders.post("/api/v1/battery-registration")
