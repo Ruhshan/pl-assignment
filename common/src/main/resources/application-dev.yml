@@ -30,7 +30,7 @@ queue:
   battery-registration-complete : q.battery-registration-complete
 
 statistics:
-  url: http://localhost:8082/statistics/api
+  url: http://localhost:8084/statistics/api
 
 springdoc:
   swagger-ui:
