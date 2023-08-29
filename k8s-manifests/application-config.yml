@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: application-config
+  labels:
+    app: pla
+data:
+  RABBIT_HOST: rabbitmq
+  RABBIT_PORT: '5672'
+  RABBIT_USER: admin
+  RABBIT_PASSWORD: admin1234
+  DB_URL: jdbc:postgresql://postgres:5432/pl-k8-db
+  DB_USER: admin
+  DB_PASS: psltest
+  JWT_KEY: A%D*G-KaPdSgUkXp2s5v8y/B?E(H+MbQeThq3t6w9z$C&F)J@NcQfTjW
+  STATISTICS_URL: http://statistics:8080
