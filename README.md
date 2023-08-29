@@ -1,6 +1,17 @@
 # High Level Architecture
 ![](hld.png)
 
+### Gateway
+Exposed to user. Handles authentication and authorization. User submits battery registration requests here, which is
+then published to queue. Battery statistics request also lands here and in the backed proxied to statistics module.
+
+### Registration
+Sole purpose of this service is to receive registration requests from queue and persist to db. It also publishes 
+successful registration events to queue that later picked up by statistics module to update the cache.
+
+### Statistics
+This is not directly accessible to user. It produces battery statistics throw rest apis.
+
 # Running The Project
 
 ## Running test
