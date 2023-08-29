@@ -17,6 +17,13 @@ services:
       - '5432:5432'
     volumes:
       - my-datavolume:/var/lib/postgres/data
+  redis:
+    image: redis
+    volumes:
+      - my-datavolume:/data
+    ports:
+      - 6379:6379
+
   statistics:
     container_name: pl-statistics-container
     build:
