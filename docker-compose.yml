@@ -17,6 +17,22 @@ services:
       - '5432:5432'
     volumes:
       - my-datavolume:/var/lib/postgres/data
+  redis:
+    image: redis
+    volumes:
+      - my-datavolume:/data
+    ports:
+      - 6379:6379
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: 'no'
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8089:8081"
+
   statistics:
     container_name: pl-statistics-container
     build:

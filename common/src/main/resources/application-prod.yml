@@ -13,7 +13,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
       hibernate.ddl-auto: validate
-
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
 
 jwt:
   tokenPrefix: Bearer
@@ -23,6 +26,7 @@ jwt:
 
 queue:
   battery-registration: q.battery-registration
+  battery-registration-complete : q.battery-registration-complete
 
 statistics:
   url: ${STATISTICS_URL}/statistics/api

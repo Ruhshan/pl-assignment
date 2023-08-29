@@ -3,6 +3,7 @@ package xyz.ruhshan.pl.statistics.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import xyz.ruhshan.pl.common.dto.RealtimeAggregatedStatDto;
 import xyz.ruhshan.pl.common.dto.StatisticsResponseDto;
 import xyz.ruhshan.pl.statistics.service.BatteryStatisticsService;
 
@@ -17,5 +18,10 @@ public class BatteryStatisticsController {
     @GetMapping("/api/by-postcode-range/{start}/{end}")
     public StatisticsResponseDto getStatisticsByPostCodeRange(@PathVariable Integer start, @PathVariable Integer end){
         return batteryStatisticsService.getStatisticsByPostCodeRange(start, end);
+    }
+
+    @GetMapping("/api/get-aggregated-stat")
+    public RealtimeAggregatedStatDto getAggregatedStat() {
+        return batteryStatisticsService.getAggregatedStats();
     }
 }

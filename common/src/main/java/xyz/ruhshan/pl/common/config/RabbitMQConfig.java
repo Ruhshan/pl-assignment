@@ -12,16 +12,24 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
     private final CachingConnectionFactory cachingConnectionFactory;
     private final String batteryRegistrationQueue;
+    private final String batteryRegistrationCompleteQueue;
 
     public RabbitMQConfig(CachingConnectionFactory cachingConnectionFactory,
-        @Value("${queue.battery-registration}") String batteryRegistrationQueue) {
+        @Value("${queue.battery-registration}") String batteryRegistrationQueue,
+        @Value("${queue.battery-registration-complete}") String batteryRegistrationCompleteQueue) {
         this.cachingConnectionFactory = cachingConnectionFactory;
         this.batteryRegistrationQueue = batteryRegistrationQueue;
+        this.batteryRegistrationCompleteQueue = batteryRegistrationCompleteQueue;
     }
 
     @Bean
-    public Queue createUserRegistrationQueue() {
+    public Queue createBatteryRegistrationQueue() {
         return new Queue(batteryRegistrationQueue);
+    }
+
+    @Bean
+    public Queue createBatteryRegistrationCompletedQueue(){
+        return new Queue(batteryRegistrationCompleteQueue);
     }
 
     @Bean

@@ -13,6 +13,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
       hibernate.ddl-auto: validate
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 
 jwt:
@@ -23,9 +27,10 @@ jwt:
 
 queue:
   battery-registration: q.battery-registration
+  battery-registration-complete : q.battery-registration-complete
 
 statistics:
-  url: http://localhost:8082/statistics/api
+  url: http://localhost:8084/statistics/api
 
 springdoc:
   swagger-ui:

@@ -14,3 +14,5 @@ data:
   DB_PASS: psltest
   JWT_KEY: A%D*G-KaPdSgUkXp2s5v8y/B?E(H+MbQeThq3t6w9z$C&F)J@NcQfTjW
   STATISTICS_URL: http://statistics:8080
+  REDIS_HOST: redis
+  REDIS_PORT: '6379'

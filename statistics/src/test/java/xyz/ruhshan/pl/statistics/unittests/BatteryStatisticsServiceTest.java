@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import xyz.ruhshan.pl.common.dto.RealtimeAggregatedStatDto;
 import xyz.ruhshan.pl.common.dto.StatisticsResponseDto;
 import xyz.ruhshan.pl.common.entity.Battery;
 import xyz.ruhshan.pl.common.repository.BatteryRepository;
@@ -66,6 +67,75 @@ public class BatteryStatisticsServiceTest {
         StatisticsResponseDto statisticsResponseDto = batteryStatisticsService.getStatisticsByPostCodeRange(100, 200);
 
         Assertions.assertEquals(averageWatts, statisticsResponseDto.getAverageWattCapacity());
+
+    }
+
+    @Test
+    public void aggregatedStatShouldHaveTotalCapacityOfAllBatteries() {
+        var totalCapacity = BATTERY_DATA.stream().mapToDouble(Battery::getCapacity).sum();
+        when(batteryRepository.findAll()).thenReturn(BATTERY_DATA);
+
+        RealtimeAggregatedStatDto aggregatedStatDto = batteryStatisticsService.getAggregatedStats();
+
+        Assertions.assertEquals(totalCapacity, aggregatedStatDto.getTotalCapacity());
+
+    }
+
+    @Test
+    public void aggregatedStatShouldHaveTotalNumberOfBatteries() {
+
+        when(batteryRepository.findAll()).thenReturn(BATTERY_DATA);
+
+        RealtimeAggregatedStatDto aggregatedStatDto = batteryStatisticsService.getAggregatedStats();
+
+        Assertions.assertEquals(BATTERY_DATA.size(), aggregatedStatDto.getTotalNumberOfBatteries());
+
+    }
+
+    @Test
+    public void aggregatedStatShouldHaveAverageCapacity() {
+        var averageCapacity = BATTERY_DATA.stream().mapToDouble(Battery::getCapacity).sum()/BATTERY_DATA.size();
+
+        when(batteryRepository.findAll()).thenReturn(BATTERY_DATA);
+
+        RealtimeAggregatedStatDto aggregatedStatDto = batteryStatisticsService.getAggregatedStats();
+
+        Assertions.assertEquals(averageCapacity, aggregatedStatDto.getAverageCapacity());
+
+    }
+
+    @Test
+    public void aggregatedStatShouldMinimumCapacity() {
+        var minCapacity = BATTERY_DATA.stream().mapToDouble(Battery::getCapacity).min();
+
+        when(batteryRepository.findAll()).thenReturn(BATTERY_DATA);
+
+        RealtimeAggregatedStatDto aggregatedStatDto = batteryStatisticsService.getAggregatedStats();
+
+        Assertions.assertEquals(minCapacity.getAsDouble(), aggregatedStatDto.getMinimumCapacity());
+
+    }
+
+    @Test
+    public void aggregatedStatShouldHaveMaximumCapacity() {
+        var maxCapacity = BATTERY_DATA.stream().mapToDouble(Battery::getCapacity).max().getAsDouble();
+
+        when(batteryRepository.findAll()).thenReturn(BATTERY_DATA);
+
+        RealtimeAggregatedStatDto aggregatedStatDto = batteryStatisticsService.getAggregatedStats();
+
+        Assertions.assertEquals(maxCapacity, aggregatedStatDto.getMaximumCapacity());
+
+    }
+
+    @Test
+    public void aggregatedStatShouldHaveQuartiles() {
+    List<Double> expectedQuartiles = List.of(13500.0, 13500.0, 18500.0);
+        when(batteryRepository.findAll()).thenReturn(BATTERY_DATA);
+
+        RealtimeAggregatedStatDto aggregatedStatDto = batteryStatisticsService.getAggregatedStats();
+
+        Assertions.assertArrayEquals(expectedQuartiles.toArray(), aggregatedStatDto.getQuartiles().toArray());
 
     }
 
