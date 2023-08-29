@@ -1,5 +1,6 @@
 package xyz.ruhshan.pl.gateway.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,12 +19,12 @@ public class AuthController extends ApiV1Controller{
     }
 
     @PostMapping( "/auth/signup")
-    public SignUpResponse signUp(@RequestBody SignUpRequest signUpRequest){
+    public SignUpResponse signUp(@RequestBody @Valid SignUpRequest signUpRequest){
         return authService.signUp(signUpRequest);
     }
 
     @PostMapping("/auth/signin")
-    public SignInResponse signIn(@RequestBody SignInRequest signInRequest) {
+    public SignInResponse signIn(@RequestBody @Valid SignInRequest signInRequest) {
         return authService.signIn(signInRequest);
     }
 
