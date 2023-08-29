@@ -2,5 +2,7 @@ spring:
   application.name: @project.artifactId@
 server:
   servlet:
-    context-path: '/gateway'
+    context-path: '/registration'
+
+
 
