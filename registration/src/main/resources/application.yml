@@ -1,3 +1,5 @@
+spring:
+  application.name: @project.artifactId@
 server:
   servlet:
     context-path: '/registration'
