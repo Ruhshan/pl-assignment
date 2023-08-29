@@ -6,9 +6,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -49,6 +51,9 @@ public class RegistrationEventHandlerTest {
 
     @Autowired
     RegistrationEventHandlerServiceImpl registrationEventHandlerService;
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
 
     @AfterEach
@@ -108,6 +113,21 @@ public class RegistrationEventHandlerTest {
         List<Battery> allBatteries = batteryRepository.findAll();
 
         Assertions.assertEquals(1, allBatteries.size());
+    }
+
+    @Test
+    public void shouldPublishOnRegistrationCompletedQueu() {
+        BatteryRegistrationRequest batteryRegistrationRequest = new BatteryRegistrationRequest("Cannington",
+            6107, 13500.0);
+
+        registrationEventHandlerService.register(batteryRegistrationRequest);
+
+        Battery batteryFromQueue = rabbitTemplate.receiveAndConvert("q.battery-registration-complete",
+            ParameterizedTypeReference.forType(Battery.class));
+
+        Assertions.assertEquals(batteryRegistrationRequest.getCapacity(), batteryFromQueue.getCapacity());
+        Assertions.assertEquals(batteryRegistrationRequest.getName(), batteryFromQueue.getName());
+        Assertions.assertEquals(batteryRegistrationRequest.getPostcode(), batteryFromQueue.getPostCode());
     }
 
 
