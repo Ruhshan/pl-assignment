@@ -33,34 +33,34 @@ services:
     ports:
       - "8089:8081"
 
-#  statistics:
-#    container_name: pl-statistics-container
-#    build:
-#      context: .
-#      dockerfile: Dockerfile-statistics
-#    ports:
-#      - '8083:8080'
-#    env_file:
-#      - docker-variable.env
-#  registration:
-#    container_name: pl-registration-container
-#    build:
-#      context: .
-#      dockerfile: Dockerfile-registration
-#    ports:
-#      - '8082:8080'
-#    env_file:
-#      - docker-variable.env
-#  gateway:
-#    container_name: pl-gateway-container
-#    build:
-#      context: .
-#      dockerfile: Dockerfile-gateway
-#    ports:
-#      - '8081:8080'
-#    env_file:
-#      - docker-variable.env
-#
+  statistics:
+    container_name: pl-statistics-container
+    build:
+      context: .
+      dockerfile: Dockerfile-statistics
+    ports:
+      - '8083:8080'
+    env_file:
+      - docker-variable.env
+  registration:
+    container_name: pl-registration-container
+    build:
+      context: .
+      dockerfile: Dockerfile-registration
+    ports:
+      - '8082:8080'
+    env_file:
+      - docker-variable.env
+  gateway:
+    container_name: pl-gateway-container
+    build:
+      context: .
+      dockerfile: Dockerfile-gateway
+    ports:
+      - '8081:8080'
+    env_file:
+      - docker-variable.env
+
 
 
 volumes:

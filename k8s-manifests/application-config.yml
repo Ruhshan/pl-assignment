@@ -16,3 +16,4 @@ data:
   STATISTICS_URL: http://statistics:8080
   REDIS_HOST: redis
   REDIS_PORT: '6379'
+  LOG_PATH: '/tmp/logs' #Ideal way is to mount a volume then write log or use logstash or similar service
